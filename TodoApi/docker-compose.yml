@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "5001:8080"
+      - "5001:8000"
     environment:
       - ConnectionStrings__DefaultConnection=Server=db;Database=master;User Id=SA;Password=NPa70W1K<#59;
     depends_on:
