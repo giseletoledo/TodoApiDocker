@@ -41,14 +41,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//Enable CORS
-app.UseCors(c => c.AllowAnyHeader() .AllowAnyOrigin().AllowAnyMethod());
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
 
 var summaries = new[]
 {
@@ -69,6 +62,15 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi();
+
+//Enable CORS
+app.UseCors(c => c.AllowAnyHeader() .AllowAnyOrigin().AllowAnyMethod());
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();
 
