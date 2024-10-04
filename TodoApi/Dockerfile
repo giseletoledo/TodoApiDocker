@@ -1,22 +1,29 @@
-# Usar a imagem base do SDK do .NET 8 para compilar a aplicação
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
-WORKDIR /app
-EXPOSE 80      
-EXPOSE 5001   
+# Use uma imagem base do SDK para construir a aplicação
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
-# Copiar csproj e restaurar dependências
+# Defina o diretório de trabalho
+WORKDIR /app
+EXPOSE 80
+EXPOSE 5000
+
+
+# Copie o arquivo de projeto e restaure as dependências
 COPY *.csproj ./
 RUN dotnet restore
 
-# Copiar o restante do código e compilar
+# Copie todos os arquivos e publique a aplicação
 COPY . ./
 RUN dotnet publish -c Release -o out
 
-# Usar a imagem base do runtime do .NET 8 para a aplicação
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+# Use uma imagem base do runtime para rodar a aplicação
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+
+# Defina o diretório de trabalho
 WORKDIR /app
-COPY --from=build-env /app/out .
+
+# Copie os arquivos publicados da etapa de build
+COPY --from=build /app/out .
 ENV ASPNETCORE_URLS="http://*:80;http://*:5001"
 
-# Definir o comando de execução
+# Defina o comando para executar a aplicação
 ENTRYPOINT ["dotnet", "TodoApi.dll"]

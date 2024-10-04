@@ -1,25 +1,24 @@
 services:
-  todoapi:
-    image: todoapi:latest
-    build:
-      context: .
-      dockerfile: Dockerfile
+  app:
+    image: todoapi:latest # Nome da imagem criada com "docker build -t todoapi:latest . "
     ports:
-      - "5001:8000"
+      - "80:80"
     environment:
-      - ConnectionStrings__DefaultConnection=Server=db;Database=master;User Id=SA;Password=NPa70W1K<#59;
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=todoapi-sql-1;Database=master;User Id=SA;Password=NPa70W1K<#59;
     depends_on:
-      - db
+      - sql
 
-  db:
+  sql:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
-      SA_PASSWORD: "NPa70W1K<#59"
-      ACCEPT_EULA: "Y"
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=NPa70W1K<#59
+      - MSSQL_PID=Developer
     ports:
       - "1433:1433"
     volumes:
-      - sqlserverdata:/var/opt/mssql
+      - sql_data:/var/opt/mssql
 
 volumes:
-  sqlserverdata:
+  sql_data:
