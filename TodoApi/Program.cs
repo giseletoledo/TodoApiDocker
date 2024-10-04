@@ -1,11 +1,22 @@
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
+using TodoApi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+// Add services to the container.
+// Configurando o DbContext
+builder.Services.AddDbContext<TodoContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
 
 // JSON Serializer
 builder.Services.AddControllers()
@@ -19,20 +30,25 @@ builder.Services.AddControllers()
     });
 
 
-
 var app = builder.Build();
 
-//Enable CORS
-app. UseCors(c => c.AllowAnyHeader() .AllowAnyOrigin().AllowAnyMethod());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+//Enable CORS
+app.UseCors(c => c.AllowAnyHeader() .AllowAnyOrigin().AllowAnyMethod());
+
 app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
 
 var summaries = new[]
 {
