@@ -16,6 +16,7 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build-env /app/out .
+ENV ASPNETCORE_URLS="http://*:80;http://*:5001"
 
 # Definir o comando de execução
 ENTRYPOINT ["dotnet", "TodoApi.dll"]
