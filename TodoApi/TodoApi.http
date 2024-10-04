@@ -1,6 +1,8 @@
-@TodoApi_HostAddress = http://localhost:5106
+@TodoApi_HostAddress = http://localhost:5001
 
 GET {{TodoApi_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+GET {{TodoApi_HostAddress}}/api/TodoApp/GetNotes
+Accept: application/json
