@@ -4,7 +4,11 @@ GET {{TodoApi_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
-GET {{TodoApi_HostAddress}}/api/TodoApp/GetNotes
+GET {{TodoApi_HostAddress}}/api/TodoApp/all
+Accept: application/json
+
+###
+GET {{TodoApi_HostAddress}}/api/TodoApp/note/7
 Accept: application/json
 
 ###
@@ -19,7 +23,7 @@ Content-Type: application/json
 ###
 
 ### Update Note
-PUT {{TodoApi_HostAddress}}/api/TodoApp/UpdateNote/1
+PUT {{TodoApi_HostAddress}}/api/TodoApp/1
 Content-Type: application/json
 
 {
@@ -29,7 +33,7 @@ Content-Type: application/json
 ###
 
 ### Delete Note
-DELETE {{TodoApi_HostAddress}}/api/TodoApp/DeleteNote/1
+DELETE {{TodoApi_HostAddress}}/api/TodoApp/9
 
 ###
 
