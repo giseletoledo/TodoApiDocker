@@ -37,7 +37,7 @@ namespace TodoApi.Services
             var note = new Note
             {
                 Description = noteDto.Description,
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.UtcNow
             };
             _noteRepository.AddNote(note);
         }

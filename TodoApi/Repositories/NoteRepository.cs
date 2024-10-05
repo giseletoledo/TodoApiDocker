@@ -18,6 +18,8 @@ namespace TodoApi.Repositories
 
         public void AddNote(Note note)
         {
+            note.CreatedAt = DateTime.UtcNow; // Set current UTC datetime
+
             string query = "INSERT INTO dbo.Notes (Description, CreatedAt) VALUES (@Description, @CreatedAt)";
 
             using (SqlConnection myCon = new SqlConnection(_connectionString))
@@ -30,6 +32,7 @@ namespace TodoApi.Repositories
                 cmd.ExecuteNonQuery();
             }
         }
+
 
         public void DeleteNote(int id)
         {
