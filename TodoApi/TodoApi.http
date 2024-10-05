@@ -1,4 +1,4 @@
-@TodoApi_HostAddress = http://localhost:5001
+@TodoApi_HostAddress = http://localhost:80
 
 GET {{TodoApi_HostAddress}}/weatherforecast/
 Accept: application/json
@@ -6,3 +6,32 @@ Accept: application/json
 ###
 GET {{TodoApi_HostAddress}}/api/TodoApp/GetNotes
 Accept: application/json
+
+###
+### Add Note
+POST {{TodoApi_HostAddress}}/api/TodoApp/AddNote
+Content-Type: application/json
+
+{
+ "description": "Estudar para a prova de matemática"
+}
+
+###
+
+### Update Note
+PUT {{TodoApi_HostAddress}}/api/TodoApp/UpdateNote/1
+Content-Type: application/json
+
+{
+    "description": "Revisar notas de matemática e português"
+}
+
+###
+
+### Delete Note
+DELETE {{TodoApi_HostAddress}}/api/TodoApp/DeleteNote/1
+
+###
+
+### Swagger
+GET {{TodoApi_HostAddress}}/swagger
