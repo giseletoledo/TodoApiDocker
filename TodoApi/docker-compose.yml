@@ -1,6 +1,9 @@
 services:
   app:
-    image: todoapi:latest # Nome da imagem criada com "docker build -t todoapi:latest . "
+    #image: todoapi:latest  Nome da imagem criada com "docker build -t todoapi:latest . "
+    build: 
+      context: . # Define o diretório onde está o Dockerfile
+      dockerfile: Dockerfile # Nome do Dockerfile (padrão é Dockerfile, então pode ser omitido)
     ports:
       - "80:80"
     environment:

@@ -5,7 +5,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 EXPOSE 80
 EXPOSE 5000
-
+EXPOSE 5001
 
 # Copie o arquivo de projeto e restaure as dependências
 COPY *.csproj ./
