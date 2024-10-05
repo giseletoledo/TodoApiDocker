@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Serialization;
 using TodoApi.Data;
+using TodoApi.Repositories;
+using TodoApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,22 +17,22 @@ builder.Services.AddDbContext<TodoContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
+builder.Services.AddScoped<INoteService, NoteService>();
+builder.Services.AddScoped<INoteRepository, NoteRepository>();
 
 
 // JSON Serializer
 builder.Services.AddControllers()
-    .AddNewtonsoftJson(options =>
+    .AddJsonOptions(options =>
     {
-        // Evita loops de referência (problema comum ao serializar objetos com relações cíclicas)
-        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-
-        // Define o contract resolver (usado para controlar como os objetos são serializados)
-        options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+        options.JsonSerializerOptions.PropertyNamingPolicy = null; // Desativa o camelCase se necessário
+        options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull; // Ignora valores nulos
     });
 
-
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -41,8 +42,24 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Roteamento deve ser adicionado antes de usar endpoints
+app.UseRouting();
 
+// Enable CORS
+app.UseCors(c => c.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 
+app.UseHttpsRedirection();
+
+// Se estiver usando autenticação ou autorização, adicione-os aqui
+app.UseAuthorization();
+
+// Configura os endpoints para os controladores da API
+app.UseEndpoints(endpoints =>
+{
+    _ = endpoints.MapControllers(); // Mapeia os controladores
+});
+
+// Exemplo de endpoint personalizado já mapeado anteriormente
 var summaries = new[]
 {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -62,15 +79,6 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi();
-
-//Enable CORS
-app.UseCors(c => c.AllowAnyHeader() .AllowAnyOrigin().AllowAnyMethod());
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
 
 app.Run();
 
