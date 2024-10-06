@@ -17,13 +17,13 @@ POST {{TodoApi_HostAddress}}/api/TodoApp/AddNote
 Content-Type: application/json
 
 {
- "description": "Estudar para a prova de matemática"
+ "description": "Fazer compras no supermercado"
 }
 
 ###
 
 ### Update Note
-PUT {{TodoApi_HostAddress}}/api/TodoApp/1
+PUT {{TodoApi_HostAddress}}/api/TodoApp/10
 Content-Type: application/json
 
 {
