@@ -20,6 +20,7 @@ builder.Services.AddSwaggerGen();
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
+//Add dependencies
 builder.Services.AddScoped<INoteService, NoteService>();
 builder.Services.AddScoped<INoteRepository, NoteRepository>();
 
@@ -50,7 +51,7 @@ app.UseCors(c => c.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 
 app.UseHttpsRedirection();
 
-// Se estiver usando autenticação ou autorização, adicione-os aqui
+// Autenticação ou autorização
 app.UseAuthorization();
 
 // Configura os endpoints para os controladores da API
