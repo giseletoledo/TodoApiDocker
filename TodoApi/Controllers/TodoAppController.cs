@@ -27,13 +27,13 @@ namespace TodoApi.Controllers
         {
             if (id <= 0)
             {
-                return BadRequest(new { error = "The id must be a positive integer." });
+                return BadRequest(new { error = "O id não deve ser um número negativo" });
             }
 
             var note = _noteService.GetNoteById(id);
             if (note == null)
             {
-                return NotFound(new { error = "Note not found" });
+                return NotFound(new { error = "Nota não encontrada" });
             }
 
             return Ok(note);
@@ -48,13 +48,13 @@ namespace TodoApi.Controllers
                 // Verificar se o objeto deserializado está nulo ou se o campo Description está vazio
                 if (noteDto == null || string.IsNullOrEmpty(noteDto.Description))
                 {
-                    return BadRequest(new { error = "Description is required" });
+                    return BadRequest(new { error = "Descrição é obrigatória" });
                 }
 
                 // Adicionar a nota (usando um serviço ou repositório)
                 _noteService.AddNote(noteDto);
 
-                return Ok(new { message = "Note added successfully" });
+                return Ok(new { message = "Nota adicionada com successo" });
             }
             catch (Exception ex)
             {
@@ -69,7 +69,7 @@ namespace TodoApi.Controllers
         {
             if (id <= 0)
             {
-                return BadRequest(new { error = "The id must be a positive integer." });
+                return BadRequest(new { error = "O id não deve ser um número negativo" });
             }
 
             noteDto.Id = id;
@@ -82,9 +82,9 @@ namespace TodoApi.Controllers
         {
             if (id <= 0)
             {
-                return BadRequest(new { error = "The id must be a positive integer." });
+                return BadRequest(new { error = "O id não deve ser um número negativo" });
             }
-            
+
             _noteService.DeleteNote(id);
             return Ok();
         }
